@@ -94,6 +94,32 @@ function FinalReport({ report, onNewTest }) {
         </div>
       </div>
 
+      {/* User Details Section */}
+      {report.userDetails && report.userDetails.length > 0 && (
+        <section className="final-report__fixes-section" style={{ marginTop: '24px' }}>
+          <div className="final-report__summary-card">
+            <div className="final-report__summary-card-title">
+              👤 User Data Provided
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
+              {report.userDetails.map((row, idx) => (
+                <div key={idx} style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--primary)', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 'bold' }}>
+                    {row.type || 'Data'}
+                  </div>
+                  {row.pairs?.map((p, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '0.9rem' }}>
+                      <span style={{ color: 'var(--text-muted)' }}>{p.key}:</span>
+                      <span style={{ fontFamily: 'monospace' }}>{p.value}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Suggested Fixes Section (New Feature Highlights) */}
       {global.suggestedFixes?.length > 0 && (
         <section className="final-report__fixes-section">
@@ -215,7 +241,7 @@ function FinalReport({ report, onNewTest }) {
             <tbody>
               {pages.map((p, i) => (
                 <tr key={i}>
-                  <td className={`status--${p.loadStatus.toLowerCase()}`}>
+                  <td className={`status--${p.loadStatus?.toLowerCase() ?? 'unknown'}`}>
                     {p.loadStatus === 'SUCCESS' ? '✓' : '✗'}
                   </td>
                   <td>

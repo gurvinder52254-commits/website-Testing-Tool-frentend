@@ -132,6 +132,11 @@ function App() {
         setLiveUrl(data.url);
         break;
 
+      case 'groq-screenshot':
+        setLiveScreenshot(`data:image/png;base64,${data.image}`);
+        setLiveUrl(data.url || '');
+        break;
+
       case 'screenshot-taken':
         addLog(`📸 Screenshot captured: ${data.url}`, 'success');
         break;
@@ -378,7 +383,7 @@ function App() {
             </section>
           )}
 
-          <FinalReport report={selectedReport} onNewTest={() => handleNavigate('reports')} />
+          <FinalReport report={selectedReport} onNewTest={handleNewTest} />
         </div>
       )}
 
